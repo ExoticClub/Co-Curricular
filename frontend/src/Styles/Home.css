@@ -18,8 +18,18 @@
 }
 #Home-Association{
     flex-direction: column;
-    width:50%;
+    width:250px;
     margin:50px;
+}
+.Topic{
+    display: flex;
+    width:250px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Association-Container div{
+    padding: 10px;
 }
 
 

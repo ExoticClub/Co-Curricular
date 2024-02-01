@@ -41,7 +41,7 @@ const PatchAssociation=async(req,res)=>{
         res.status(200).json(Association);
     }
     catch(e){
-        res.status(400).json(Association);
+        res.status(400).json({error:e.message});
     }
 }
 
