@@ -1,0 +1,25 @@
+#Home-Association,#Home-Report,#Home-Event,#Home-Association-Form{
+    display: none;
+}
+
+#Home-Loading{
+    background-color: white;
+    position: fixed;
+    top:0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#Home-Association-Form{
+    flex-direction: column;
+}
+#Home-Association{
+    flex-direction: column;
+    width:50%;
+    margin:50px;
+}
+
+

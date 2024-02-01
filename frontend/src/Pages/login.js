@@ -84,7 +84,7 @@ function Login(){
         for(let Log of LogData){
             if(Log.RegNo===RegNo){
                 if(Log.Password===Password){
-                    Cookies.set('Account', Log.RegNo);
+                    Cookies.set('Account', Log._id);
                     window.location.href="/Home";
                 }else{
                     alert("Password Incorrect !")

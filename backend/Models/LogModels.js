@@ -19,6 +19,10 @@ const LogSchema=new Schema(
         Password:{
             type:String,
             require:true
+        },
+        Role:{
+            type:String,
+            require:true
         }
 
     }
