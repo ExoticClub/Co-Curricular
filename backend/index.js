@@ -4,6 +4,7 @@ const mongoose=require("mongoose");
 const LogRoute=require("./Routes/LogRoute");
 const cors = require('cors');
 const AssociationRoute=require("./Routes/AssociationRoute");
+const EventRoute=require("./Routes/EventRoute");
 
 const Port=4689;
 const Uri="mongodb+srv://teamexotic:65786F746963@exotic.ru2tbx8.mongodb.net/?retryWrites=true&w=majority"
@@ -32,3 +33,4 @@ mongoose.connect(Uri)
 
 app.use("/api/log",LogRoute);
 app.use("/api/Association",AssociationRoute);
+app.use("/api/event",EventRoute);
