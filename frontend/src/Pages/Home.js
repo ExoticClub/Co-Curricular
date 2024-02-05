@@ -140,9 +140,10 @@ function Home(){
                 document.querySelector("#Home-Association-Form").style="display:flex;";
                 setXAssociation(A)
                 setRoler(A.OBs)
+                console.log("==="+roler);
             }
         }
-    },[AssoData,selectedOption])
+    },[AssoData,selectedOption,roler])
 
     console.log("XA",XAssociation)
 
@@ -202,7 +203,7 @@ function Home(){
                         
                         {role[1] && role[1].map((Person, personIndex) => (
                             <div key={"Z"+personIndex}>
-                                <input key={"P"+personIndex} id={"R"+index+"P"+personIndex} defaultValue={Person} />
+                                <input key={"P"+personIndex} id={"R"+index+"P"+personIndex} Value={Person} />
                                 <button onClick={() => DeletePerson(index, personIndex)} type="button"><FontAwesomeIcon icon={faTrash} /></button>
                             </div>
                         ))}
