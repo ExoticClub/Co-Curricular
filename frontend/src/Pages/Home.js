@@ -36,6 +36,28 @@ function Home(){
 
     // ---------------------- API FETCH --------------------------
 
+    const [EventData, setEventData] = useState([]);
+
+    useEffect(() => {
+        const apiUrl = URL+'/api/event';
+    
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+            return response.json();
+        })
+        .then(resultData => {
+            setEventData(resultData);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }, []);
+
+    // ---------------------- API FETCH --------------------------
+
     const [AssoData, setAssoData] = useState([]);
 
     useEffect(() => {
@@ -172,7 +194,10 @@ function Home(){
         updatedRoler[roleIndex][1].splice(personIndex, 1);
         setRoler(updatedRoler);
       };
-
+    
+    const eventGeter=['Name','Date','Time','Venue','Participants','Rules','POMaps','Student In-Charge','Facultie In-Charge']
+    const eventPoster=['Name','Date','Time','Venue','Participants','Rules','POMap','SIC','FIC']
+    console.log(eventPoster,EventData)
 
     return(
         <>
@@ -219,6 +244,17 @@ function Home(){
         <div id='Home-Event'>
             <form>
                 <p>Create Event</p>
+                {eventGeter.map((event)=>(
+                    <div>
+                        <div>
+                            <p>{event}</p>
+                            <input placeholder={event}></input>
+                            
+                        </div>
+                    </div>
+                ))
+
+                }
             </form>
         </div>
 
