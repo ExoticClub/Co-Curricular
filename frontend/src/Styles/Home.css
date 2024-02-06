@@ -16,7 +16,7 @@
 #Home-Association-Form{
     flex-direction: column;
 }
-#Home-Association{
+#Home-Association,#Home-Event{
     flex-direction: column;
     width:250px;
     margin:50px;
@@ -32,4 +32,33 @@
     padding: 10px;
 }
 
+#EventL2{
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display:none;
+    justify-content: center;
+    align-items: center;
+    
+}
+#EventL2L1{
+    padding: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width:50%;
+    background-color: whitesmoke;
+}
+.PartIn,.POIn{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width:100px;
+}
+.PartIn p,.PartIn input,.POIn p,.POIn input{
+    padding: 10px;
+}
 

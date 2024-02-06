@@ -108,6 +108,37 @@ function Home(){
       };
       
 
+      // -------------------- POST ------------------
+
+
+    const CreateNewEvent = async (FEvent) => {
+
+        document.querySelector("#Home-Loading").style="display:flex;";
+
+        try {
+        
+            const response = await fetch(URL+'/api/event', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(FEvent),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const responseData = await response.json();
+            console.log('Response data:', responseData);
+            document.querySelector("#Home-Loading").style="display:none;";
+        } catch (error) {
+            console.error('Error during POST request:', error);
+            document.querySelector("#Home-Loading").style="display:none;";
+        }
+    };
+
+
 
      // -------------- LOADING --------------
     const [UserData,setUserData]=useState({})
@@ -228,6 +259,42 @@ function Home(){
           setPOData(updatedPOData);
         };
 
+    const EventL1Submit=(e)=>{
+        e.preventDefault();
+        document.querySelector("#PName").innerHTML="Name : "+document.querySelector("#PLName").value;
+        document.querySelector("#PDate").innerHTML="Date : "+document.querySelector("#PLDate").value;
+        document.querySelector("#PTime").innerHTML="Time : "+document.querySelector("#PLTime").value;
+        document.querySelector("#PVenue").innerHTML="Venue : "+document.querySelector("#PLVenue").value;
+        document.querySelector("#PPart").innerHTML="Participants : "+PData;
+        document.querySelector("#PRules").innerHTML="Rules : "+document.querySelector("#PLRules").value;
+        document.querySelector("#PPOs").innerHTML="PO's : "+POData;
+        document.querySelector("#PSIC").innerHTML="Student In Charge : "+document.querySelector("#PLSIC").value;
+        document.querySelector("#PFIC").innerHTML="Facultie In Charge : "+document.querySelector("#PLFIC").value;
+        document.querySelector("#EventL2").style="display:flex;";
+    }
+    const EventL2Submit=()=>{
+        const FEvent={
+            "Name":document.querySelector("#PLName").value,
+            "Date":document.querySelector("#PLDate").value,
+            "Time":document.querySelector("#PLTime").value,
+            "Venue":document.querySelector("#PLVenue").value,
+            "Participants":PData,
+            "Rules":document.querySelector("#PLRules").value,
+            "POMap":POData,
+            "SIC":document.querySelector("#PLSIC").value,
+            "FIC":document.querySelector("#PLFIC").value,
+            "HODA":[false,""],
+            "CoCA":[false,""],
+            "VPA":[false,""],
+            "PA":[false,""]
+        }
+        console.log(FEvent)
+        CreateNewEvent(FEvent);
+    }
+    const EventL2Close=()=>{
+        document.querySelector("#EventL2").style="display:none;"
+    }
+
     return(
         <>
         <div>
@@ -271,29 +338,29 @@ function Home(){
         {/* ---------------- E V E N T -------------- */}
 
         <div id='Home-Event'>
-            <form>
+            <form onSubmit={EventL1Submit} id='EventL1'>
                 <p>Create Event</p>
                 <div>
                     <p>Name</p>
-                    <input placeholder='Name Of The Event'></input>
+                    <input placeholder='Name Of The Event' id='PLName' required></input>
                 </div>
                 <div>
                     <p>Date</p>
-                    <input type='date'></input>
+                    <input type='date' required id='PLDate'></input>
                 </div>
                 <div>
                     <p>Time</p>
-                    <input type='time'></input>
+                    <input type='time' required id='PLTime'></input>
                 </div>
                 <div>
                     <p>Venue</p>
-                    <input placeholder='Venue'></input>
+                    <input placeholder='Venue' required id='PLVenue'></input>
                 </div>
                 <div>
                     <p>Participants</p>
                     <>
                         {PData.map((pd,pid) => 
-                        <div>
+                        <div className='PartIn'>
                             <p key={pd} id={"PD"+pid}>{pd}</p>
                             <button onClick={()=>DeletePD(pid)} type='button'><FontAwesomeIcon icon={faTrash} /></button>
                         </div>)}
@@ -305,13 +372,13 @@ function Home(){
                 </div>
                 <div>
                     <p>Rules</p>
-                    <input placeholder='Rules'></input>
+                    <input placeholder='Rules' id='PLRules'></input>
                 </div>
                 <div>
                     <p>PO</p>
                     <>
                         {POData.map((pod,poid) => 
-                        <div>
+                        <div className='POIn'>
                             <p key={pod} id={"POD"+poid}>{pod}</p>
                             <button onClick={()=>DeletePOD(poid)} type='button'><FontAwesomeIcon icon={faTrash} /></button>
                         </div>)}
@@ -323,14 +390,32 @@ function Home(){
                 </div>
                 <div>
                     <p>Student In Charge</p>
-                    <input placeholder='Student In Charge'></input>
+                    <input placeholder='Student In Charge' required id='PLSIC'></input>
                 </div>
                 <div>
                     <p>Facultie In Charge</p>
-                    <input placeholder='Facultie In Charge'></input>
+                    <input placeholder='Facultie In Charge' required id='PLFIC'></input>
                 </div>
-                <button type='button'>Submit</button>
+                <button type='submit'>Submit</button>
             </form>
+            
+            <div id='EventL2'>
+                <div id='EventL2L1'>
+                    <p id='PName'>Name : </p>
+                    <p id='PDate'>Date : </p>
+                    <p id='PTime'>Time : </p>
+                    <p id='PVenue'>Venue : </p>
+                    <p id='PPart'>Participants : </p>
+                    <p id='PRules'>Rules : </p>
+                    <p id='PPOs'>PO's : </p>
+                    <p id='PSIC'>Student In Charge : </p>
+                    <p id='PFIC'>Facultie In Charge : </p>
+                    <div>
+                        <button onClick={EventL2Submit}>Submit</button>
+                        <button onClick={EventL2Close}>Close</button>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
