@@ -195,9 +195,38 @@ function Home(){
         setRoler(updatedRoler);
       };
     
-    const eventGeter=['Name','Date','Time','Venue','Participants','Rules','POMaps','Student In-Charge','Facultie In-Charge']
     const eventPoster=['Name','Date','Time','Venue','Participants','Rules','POMap','SIC','FIC']
     console.log(eventPoster,EventData)
+
+    const [PData,setPData]=useState([])
+
+    const ParticipantsUpdater=()=>{
+        setPData([...PData,document.querySelector("#pha").value])
+        document.querySelector("#pha").value="";
+        console.log(PData)
+    }
+
+    const DeletePD = (n) => {
+        const updatedPData = [...PData];
+        updatedPData.splice(n, 1);
+        console.log(updatedPData)
+        setPData(updatedPData);
+      };
+
+      const [POData,setPOData]=useState([])
+
+      const POUpdater=()=>{
+          setPOData([...POData,document.querySelector("#poha").value])
+          document.querySelector("#poha").value="";
+          console.log(POData)
+      }
+  
+      const DeletePOD = (n) => {
+          const updatedPOData = [...POData];
+          updatedPOData.splice(n, 1);
+          console.log(updatedPOData)
+          setPOData(updatedPOData);
+        };
 
     return(
         <>
@@ -244,18 +273,65 @@ function Home(){
         <div id='Home-Event'>
             <form>
                 <p>Create Event</p>
-                {eventGeter.map((event)=>(
-                    <div>
+                <div>
+                    <p>Name</p>
+                    <input placeholder='Name Of The Event'></input>
+                </div>
+                <div>
+                    <p>Date</p>
+                    <input type='date'></input>
+                </div>
+                <div>
+                    <p>Time</p>
+                    <input type='time'></input>
+                </div>
+                <div>
+                    <p>Venue</p>
+                    <input placeholder='Venue'></input>
+                </div>
+                <div>
+                    <p>Participants</p>
+                    <>
+                        {PData.map((pd,pid) => 
                         <div>
-                            <p>{event}</p>
-                            <input placeholder={event}></input>
-                            
+                            <p key={pd} id={"PD"+pid}>{pd}</p>
+                            <button onClick={()=>DeletePD(pid)} type='button'><FontAwesomeIcon icon={faTrash} /></button>
+                        </div>)}
+                        <div>
+                            <input placeholder='Enter Participant...' id="pha"></input>
+                            <button type='button' onClick={ParticipantsUpdater}><FontAwesomeIcon icon={faPlus} /></button>
                         </div>
-                    </div>
-                ))
-
-                }
+                    </>
+                </div>
+                <div>
+                    <p>Rules</p>
+                    <input placeholder='Rules'></input>
+                </div>
+                <div>
+                    <p>PO</p>
+                    <>
+                        {POData.map((pod,poid) => 
+                        <div>
+                            <p key={pod} id={"POD"+poid}>{pod}</p>
+                            <button onClick={()=>DeletePOD(poid)} type='button'><FontAwesomeIcon icon={faTrash} /></button>
+                        </div>)}
+                        <div>
+                            <input placeholder='Enter PO...' id="poha"></input>
+                            <button type='button' onClick={POUpdater}><FontAwesomeIcon icon={faPlus} /></button>
+                        </div>
+                    </>
+                </div>
+                <div>
+                    <p>Student In Charge</p>
+                    <input placeholder='Student In Charge'></input>
+                </div>
+                <div>
+                    <p>Facultie In Charge</p>
+                    <input placeholder='Facultie In Charge'></input>
+                </div>
+                <button type='button'>Submit</button>
             </form>
+
         </div>
 
         {/* ---------------- R E P O R T -------------- */}
