@@ -85,6 +85,7 @@ function Login(){
             if(Log.RegNo===RegNo){
                 if(Log.Password===Password){
                     Cookies.set('Account', Log._id);
+                    Cookies.set('Account_Role', Log.Role);
                     window.location.href="/Home";
                 }else{
                     alert("Password Incorrect !")
