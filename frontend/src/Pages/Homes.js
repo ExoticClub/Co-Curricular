@@ -11,6 +11,19 @@ function Home(){
 
     const URL="http://localhost:4689";
     const LoginId=Cookies.get('Account');
+    const LoginRole=Cookies.get('Account_Role');
+
+    if(LoginRole=="AF"){
+        console.log("Welcome");
+    }else{
+        window.location.href="/Login";
+    }
+
+    if(!LoginId){
+        window.location.href="/Login";
+    }
+
+
 
     // ---------------------- API FETCH --------------------------
 

@@ -6,7 +6,7 @@ const mongoose=require("mongoose");
 const CreateEvent=async(req,res)=>{
     const{Name,Date,Time,Venue,Participants,Rules,POMap,SIC,FIC,HODA,CoCA,VPA,PA,Status,Summary,Feedback}=req.body;
     try{
-        const Event=await EventModule.create({Name,Date,Time,Venue,Participants,Rules,POMap,SIC,FIC,HODA,CoCA,VPA,PA,Status,Summary,Feedback,Certificate});
+        const Event=await EventModule.create({Name,Date,Time,Venue,Participants,Rules,POMap,SIC,FIC,HODA,CoCA,VPA,PA,Status,Summary,Feedback});
         res.status(200).json(Event);
     }
     catch(e){
