@@ -4,6 +4,9 @@ import './App.css';
 import Login from "./Pages/login";
 import Homes from "./Pages/Homes";
 import Home from "./Pages/Home";
+import Landing from "./Pages/Landing";
+import Event from "./Pages/Event";
+import TopTier from "./Pages/TopTier";
 
 function App() {
   return (
@@ -11,10 +14,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/">
-            <Route index element={<Login />} />
+            <Route index element={<Landing />} />
             <Route path="Login" element={<Login />} />
             <Route path="Homes" element={<Homes />} />
             <Route path="Home" element={<Home />} />
+            <Route path="Events" element={<Event />} />
+            <Route path="Approve" element={<TopTier />} />
           </Route>
         </Routes>
       </BrowserRouter>

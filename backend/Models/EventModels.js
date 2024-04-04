@@ -55,6 +55,16 @@ const EventSchema=new Schema(
         PA:{
             type:Array,
             require:true
+        },
+        Status:{
+            type:String,
+            require:true
+        },
+        Summary:{
+            type:String
+        },
+        Feedback:{
+            type:Array
         }
 
     }
