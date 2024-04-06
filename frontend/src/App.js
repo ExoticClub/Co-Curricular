@@ -7,6 +7,8 @@ import Home from "./Pages/Home";
 import Landing from "./Pages/Landing";
 import Event from "./Pages/Event";
 import TopTier from "./Pages/TopTier";
+import Circular from "./Pages/Circular";
+import Association from "./Pages/Association"
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
             <Route path="Home" element={<Home />} />
             <Route path="Events" element={<Event />} />
             <Route path="Approve" element={<TopTier />} />
+            <Route path="Circular" element={<Circular />} />
+            <Route path="Association" element={<Association/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

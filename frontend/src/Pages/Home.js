@@ -8,21 +8,52 @@ function Home(){
     const [UPEvent,setUPEvent]=useState(["No Events..."]);
     const [LAEvent,setLAEvent]=useState(["No Events..."]);
 
+    const LogOut = ()=>{
+        Cookies.set('Account',"" );
+        Cookies.set('Account_Role', "");
+        window.location.href="/Login";
+    }
+
+    
+
+    const [data,setdata]=useState([]);
+    useEffect(() => {
+        if (LoginRole === "A1") {
+            setdata([["Circular","/Circular"],["Report"],["Poster"],["Magazine"],["Social"]]);
+        }else if (LoginRole === "AF") {
+            setdata([["Association","/Association"],["Circular","/Circular"],["Report"],["Poster"],["Magazine"],["Social"]]);
+        }else if(LoginRole==="HOD"||LoginRole==="VP"||LoginRole==="P"){
+            setdata([["Approve","/Approve"]]);
+        }else if(LoginRole==="Poster"){
+            setdata([["Poster","/Poster"]])
+        }else if(LoginRole==="Magazine"){
+            setdata([["Magazine","Magazine"]])
+        }else if(LoginRole==="Social"){
+            setdata([["Social","/Social"]])
+        }
+      }, [LoginRole])
+
+
     return(
         <>
             <div>
-                <p>{LoginRole}</p>
-                {/* ------------ UPCOMING EVENTS ---------------- */}
-                <div id="Upcoming_Events"> 
-                    {UPEvent.map((cont)=>(
-                        <p>{cont}</p>
-                    ))}
+                <div className="Navbar">
+                    <div>
+                        <p>Event Corner</p>
+                    </div>
+                    <div className="nav-cet">
+                        <p>Home</p>
+                        <a onClick={()=>{window.location.href="/events"}}>Event</a>
+                        {data.map((d,eid) => 
+                            <a onClick={()=>{window.location.href=d[1]}}>{d[0]}</a>)}
+                    </div>
+                    <div className="nav-rig">
+                        <a onClick={LogOut}>Logout</a>
+                    </div>
                 </div>
-                {/* ------------ PAST EVENTS ---------------- */}
-                <div id="Past_Events">
-                    {LAEvent.map((cont)=>(
-                        <p>{cont}</p>
-                    ))}
+
+                <div>
+                    <p>{LoginRole}</p>
                 </div>
             </div>
         </>

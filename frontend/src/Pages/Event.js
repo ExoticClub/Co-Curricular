@@ -1,10 +1,14 @@
 import { useState,useEffect } from "react";
-
+import Cookies from 'js-cookie';
 import "../Styles/Event.css"
+
 
 function Event(){
 
     const URL="http://localhost:4689"
+
+    const LoginId=Cookies.get('Account');
+    const LoginRole=Cookies.get('Account_Role');
 
     // FETCH DATA EVENT
 
@@ -52,7 +56,7 @@ function Event(){
                         <p>Event Corner</p>
                     </div>
                     <div>
-                        <button onClick={Login}>Login</button>
+                        {LoginId==""&&<button onClick={Login}>Login</button>}
                     </div>
                 </div>
                 <div className="EventCont">
@@ -68,6 +72,8 @@ function Event(){
                             <div>
                                 {data.Status=="None"&& <button>Participate</button>}
                                 {data.Status=="Completed"&& <button onClick={()=>opnSum(eid)}> Check It Out</button>}
+                                {data.Status=="Pending"&& <p>Pending For Review...</p>}
+                                {!data.Status&& <p>Invalid</p>}
                                 
                             </div>
                         </div>)}

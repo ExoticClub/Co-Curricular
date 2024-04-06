@@ -33,7 +33,7 @@
     border: 2px solid white;
 }
 .nav-cet{
-    width:10%;
+    width:80%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,6 +48,7 @@
     cursor: pointer;
     margin-left: 20px;
 }
+
 .nav-rig{
     display: flex;
     justify-content: center;
