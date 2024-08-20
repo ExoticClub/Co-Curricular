@@ -1,0 +1,138 @@
+/* A4 Page Setup */
+body {
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+    width: 21cm;  /* A4 width */
+    height: 28cm;  /* A4 height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-top: 10px;
+    font-size: 11pt;
+    
+
+}
+
+/* Wrapper to center content */
+.wrapper {
+    font-size: 12pt;
+    width: 21cm;
+    height: 28cm;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    align-items: center;
+    
+}
+p{
+   
+    border:none;
+    margin:0px
+    
+}
+
+/* Header Section */
+.header {
+    text-align: center;
+    padding-bottom: 10px;
+    font-size: 12pt;
+}
+h1{
+    font-size: 12pt;
+    font-family: 'Times New Roman', Times, serif;
+}
+.header p{
+    font-size: 10pt;
+    font-family: 'Times New Roman', Times, serif;
+
+}
+
+/* Center Divider */
+.details {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-top: 20px;
+    
+    
+}
+
+.details .left, .details .right {
+    width: 48%;
+}
+
+/* Rules, PO Mapping, and Footer Sections */
+.rules, .po-mapping, .student-in-charge, .footer {
+    margin-top: 20px;
+}
+
+.rules ul {
+    list-style-type: decimal;
+    padding-left: 20px;
+}
+
+.po-mapping table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.po-mapping th, .po-mapping td {
+    border: 1px solid #000;
+    text-align: center;
+    padding: 5px;
+}
+
+.po-mapping th {
+    background-color: #f2f2f2;
+}
+
+/* Footer Section */
+.footer {
+    text-align: right;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.footer p {
+    margin: 5px 0;
+}
+
+.footer .notes {
+    text-align: left;
+    font-size: 12px;
+}
+.left{
+    border-right: 2px solid black;
+}
+.ritimage{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+.ritimage img{
+    width: 100px;
+}
+
+
+
+/* CircularPreview.css */
+
+ul {
+    list-style-type: none; /* Removes bullets from unordered lists */
+    padding-left: 0;
+    margin: 0px; /* Removes default padding */
+}
+
+li {
+    margin-bottom: 0px; /* Optional: Adds space between list items */
+}
+strong {
+    font-size: 14pt;
+    margin-top: 10px; /* Adds margin space below strong elements */
+    display: block; /* Ensures the margin is applied by making the element block-level */
+}

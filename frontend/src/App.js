@@ -9,6 +9,11 @@ import Event from "./Pages/Event";
 import TopTier from "./Pages/TopTier";
 import Circular from "./Pages/Circular";
 import Association from "./Pages/Association"
+import CircularPreview from "./Pages/CircularPreview";
+import Authentication from "./Pages/Authentication";
+
+
+
 
 function App() {
   return (
@@ -24,6 +29,8 @@ function App() {
             <Route path="Approve" element={<TopTier />} />
             <Route path="Circular" element={<Circular />} />
             <Route path="Association" element={<Association/>}/>
+            <Route path="CircularPreview" element={<CircularPreview/>}/>
+            <Route path="Authentication" element={<Authentication/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

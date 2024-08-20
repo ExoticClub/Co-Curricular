@@ -18,17 +18,17 @@ function Home(){
 
     const [data,setdata]=useState([]);
     useEffect(() => {
-        if (LoginRole === "A1") {
+        if (LoginRole == "A1") {
             setdata([["Circular","/Circular"],["Report"],["Poster"],["Magazine"],["Social"]]);
-        }else if (LoginRole === "AF") {
+        }else if (LoginRole == "AF") {
             setdata([["Association","/Association"],["Circular","/Circular"],["Report"],["Poster"],["Magazine"],["Social"]]);
-        }else if(LoginRole==="HOD"||LoginRole==="VP"||LoginRole==="P"){
+        }else if(LoginRole=="HOD"||LoginRole=="VP"||LoginRole=="P"){
             setdata([["Approve","/Approve"]]);
-        }else if(LoginRole==="Poster"){
+        }else if(LoginRole=="Poster"){
             setdata([["Poster","/Poster"]])
-        }else if(LoginRole==="Magazine"){
+        }else if(LoginRole=="Magazine"){
             setdata([["Magazine","Magazine"]])
-        }else if(LoginRole==="Social"){
+        }else if(LoginRole=="Social"){
             setdata([["Social","/Social"]])
         }
       }, [LoginRole])
@@ -36,7 +36,7 @@ function Home(){
 
     return(
         <>
-            <div>
+            <div className="h">
                 <div className="Navbar">
                     <div>
                         <p>Event Corner</p>

@@ -156,12 +156,12 @@ function Home(){
      // -------------- LOADING --------------
     const [UserData,setUserData]=useState({})
     useEffect(()=>{
-        if(LogData.length===0){
+        if(LogData.length==0){
             document.querySelector("#Home-Loading").style="display:flex;";
         }else{
             document.querySelector("#Home-Loading").style="display:none;";
             for(let l of LogData){
-                if(l._id===LoginId){
+                if(l._id==LoginId){
                     console.log(l)
                     setUserData(l);
                 }
@@ -202,11 +202,11 @@ function Home(){
     const[roler,setRoler]=useState([])
     useEffect(()=>{
         for(let A of AssoData){
-            if(A.Name===selectedOption){
+            if(A.Name==selectedOption){
                 document.querySelector("#Home-Association-Form").style="display:flex;";
                 setXAssociation(A)
                 setRoler(A.OBs)
-                console.log("==="+roler);
+                console.log("=="+roler);
             }
         }
     },[AssoData,selectedOption,roler])

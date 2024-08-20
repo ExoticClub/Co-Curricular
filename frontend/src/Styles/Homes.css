@@ -1,11 +1,11 @@
-#Home-Association,#Home-Report,#Home-Event,#Home-Association-Form{
+#Home-Association, #Home-Report, #Home-Event, #Home-Association-Form {
     display: none;
 }
 
-#Home-Loading{
+#Home-Loading {
     background-color: white;
     position: fixed;
-    top:0;
+    top: 0;
     bottom: 0;
     right: 0;
     left: 0;
@@ -13,52 +13,81 @@
     justify-content: center;
     align-items: center;
 }
-#Home-Association-Form{
-    flex-direction: column;
-}
-#Home-Association,#Home-Event{
-    flex-direction: column;
-    width:250px;
-    margin:50px;
-}
-.Topic{
+
+#Home-Association-Form {
     display: flex;
-    width:250px;
+    flex-direction: column;
+}
+
+#Home-Association, #Home-Event {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    margin: 50px;
+}
+
+.Topic {
+    display: flex;
+    width: 250px;
     align-items: center;
     justify-content: space-between;
 }
 
-.Association-Container div{
+.Association-Container div {
     padding: 10px;
 }
 
-#EventL2{
+#EventL2 {
     position: fixed;
-    top:0;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    display:none;
+    display: none;
     justify-content: center;
     align-items: center;
-    
 }
-#EventL2L1{
+
+#EventL2L1 {
     padding: 10px;
+    display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: start;
-    width:50%;
+    align-items: flex-start;
+    width: 50%;
     background-color: whitesmoke;
 }
-.PartIn,.POIn{
+
+.PartIn, .POIn {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width:100px;
+    width: 100%;
 }
-.PartIn p,.PartIn input,.POIn p,.POIn input{
+
+.PartIn p, .PartIn input, .POIn p, .POIn input {
     padding: 10px;
 }
 
+#Home-Event {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 90vh; /* Set a max height to control scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 20px; /* Add some padding for better spacing */
+    background-color: #f9f9f9; /* Optional: Background color for better visibility */
+}
+
+#Home-Event form {
+    display: flex;
+    flex-direction: column;
+}
+
+input, textarea {
+    margin: 5px 0;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}

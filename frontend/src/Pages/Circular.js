@@ -1,359 +1,246 @@
+import React, { useState, useEffect, useRef } from 'react';
 import Cookies from 'js-cookie';
-import { useState,useEffect } from 'react';
-import "../Styles/Homes.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
+import "../Styles/Homes.css";
 
-
-function Circular(){
-
-    const URL="http://localhost:4689";
-    const LoginId=Cookies.get('Account');
-    const LoginRole=Cookies.get('Account_Role');
-
-    if(LoginRole=="AF" || LoginRole=="A1"){
-        console.log("Welcome");
-    }else{
-        window.location.href="/Login";
-    }
-
-    if(!LoginId){
-        window.location.href="/Login";
-    }
-
-
-
-    // ---------------------- API FETCH --------------------------
+function Circular() {
+    const URL = "http://localhost:4689";
+    const LoginId = Cookies.get('Account');
+    const LoginRole = Cookies.get('Account_Role');
+    const navigate = useNavigate();
 
     const [LogData, setLogData] = useState([]);
+    const [UserData, setUserData] = useState({});
+    const [PData, setPData] = useState([]);
+    const [POData, setPOData] = useState([]);
+    const [rolesData, setRolesData] = useState({
+        FacultyAdvisors: [],
+        Secretary: [],
+        JointSecretary: [],
+        Treasurer: [],
+        JointTreasurer: [],
+        MagazinePreparation: [],
+        PosterDesigner: [],
+        EventOrganizer: [],
+        SocialMediaActivities: [],
+    });
+
+    const homeLoadingRef = useRef(null);
+    const homeEventRef = useRef(null);
 
     useEffect(() => {
-        const apiUrl = URL+'/api/log';
-    
-        fetch(apiUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-            return response.json();
-        })
-        .then(resultData => {
-            setLogData(resultData);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-    }, []);
-
-    // ---------------------- API FETCH --------------------------
-
-    const [EventData, setEventData] = useState([]);
-
-    useEffect(() => {
-        const apiUrl = URL+'/api/event';
-    
-        fetch(apiUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-            return response.json();
-        })
-        .then(resultData => {
-            setEventData(resultData);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-    }, []);
-
-    // ---------------------- API FETCH --------------------------
-
-    const [AssoData, setAssoData] = useState([]);
-
-    useEffect(() => {
-        const apiUrl = URL+'/api/Association';
-    
-        fetch(apiUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-            return response.json();
-        })
-        .then(resultData => {
-            setAssoData(resultData);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-    }, []);
-
-    console.log(AssoData)
-
-    // ------------------- API PATCH --------------------
-
-    const patchAssociationData = async (IO,id) => {
-   
-        try {
-          
-          const response = await fetch(URL+'/api/Association/'+id, {
-            method: 'PATCH',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(IO),
-          });
-     
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-     
-          const responseData = await response.json();
-          console.log('Response data:', responseData);
-          alert("Updated Sucessfully !");
-        } catch (error) {
-          console.error('Error during PATCH request:', error);
-          alert(error)
+        if (!LoginId || (LoginRole !== "AF" && LoginRole !== "A1")) {
+            window.location.href = "/Login";
         }
-      };
-      
+    }, [LoginId, LoginRole]);
 
-      // -------------------- POST ------------------
+    useEffect(() => {
+        fetch(URL + '/api/log')
+            .then(response => response.json())
+            .then(resultData => setLogData(resultData))
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
 
-
-    const CreateNewEvent = async (FEvent) => {
-
-        document.querySelector("#Home-Loading").style="display:flex;";
-
-        try {
-        
-            const response = await fetch(URL+'/api/event', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(FEvent),
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+    useEffect(() => {
+        if (LogData.length > 0) {
+            const user = LogData.find(l => l._id === LoginId);
+            if (user) {
+                setUserData(user);
             }
+            if (homeLoadingRef.current) {
+                homeLoadingRef.current.style.display = 'none';
+            }
+        } else if (homeLoadingRef.current) {
+            homeLoadingRef.current.style.display = 'flex';
+        }
+    }, [LogData, LoginId]);
 
-            const responseData = await response.json();
-            console.log('Response data:', responseData);
-            document.querySelector("#Home-Loading").style="display:none;";
-            alert("Circular Circulated !");
-            window.location.href="/home"
-        } catch (error) {
-            console.error('Error during POST request:', error);
-            document.querySelector("#Home-Loading").style="display:none;";
+    const handleInputChange = (e) => {
+        const { id, value } = e.target;
+        setRolesData({
+            ...rolesData,
+            [id]: value.split(',').map(item => item.trim())
+        });
+    };
+    const handleSingleLineInputChange = (e) => {
+        const { id, value } = e.target;
+        setRolesData({
+            ...rolesData,
+            [id]: value.split('\n').map(item => item.trim())
+        });
+    };
+
+    const handleDataUpdater = (data, setData, inputId) => {
+        const value = document.querySelector(`#${inputId}`).value;
+        if (value) {
+            setData([...data, value]);
+            document.querySelector(`#${inputId}`).value = "";
         }
     };
 
+    const handleDataDelete = (index, data, setData) => {
+        setData(data.filter((_, i) => i !== index));
+    };
 
+    const ParticipantsUpdater = () => handleDataUpdater(PData, setPData, "pha");
+    const POUpdater = () => handleDataUpdater(POData, setPOData, "poha");
 
-     // -------------- LOADING --------------
-    const [UserData,setUserData]=useState({})
-    useEffect(()=>{
-        if(LogData.length===0){
-            document.querySelector("#Home-Loading").style="display:flex;";
-        }else{
-            document.querySelector("#Home-Loading").style="display:none;";
-            for(let l of LogData){
-                if(l._id===LoginId){
-                    console.log(l)
-                    setUserData(l);
-                }
-            }
-        }
-    },[LogData,LoginId])
+    const DeletePD = (index) => handleDataDelete(index, PData, setPData);
+    const DeletePOD = (index) => handleDataDelete(index, POData, setPOData);
 
-    console.log(UserData)
+    const EventL1Submit = (e) => {
+        e.preventDefault();
 
-    // -------------------------------------------------------
-    
-    // ----------------------------------------------------------------------------
-
-    
-
-    function OpenEvent(){
-        document.querySelector("#Home-Event").style="display:flex;";
-    }
-
-    
-    
-    const eventPoster=['Name','Date','Time','Venue','Participants','Rules','POMap','SIC','FIC']
-    console.log(eventPoster,EventData)
-
-    const [PData,setPData]=useState([])
-
-    const ParticipantsUpdater=()=>{
-        setPData([...PData,document.querySelector("#pha").value])
-        document.querySelector("#pha").value="";
-        console.log(PData)
-    }
-
-    const DeletePD = (n) => {
-        const updatedPData = [...PData];
-        updatedPData.splice(n, 1);
-        console.log(updatedPData)
-        setPData(updatedPData);
-      };
-
-      const [POData,setPOData]=useState([])
-
-      const POUpdater=()=>{
-          setPOData([...POData,document.querySelector("#poha").value])
-          document.querySelector("#poha").value="";
-          console.log(POData)
-      }
-  
-      const DeletePOD = (n) => {
-          const updatedPOData = [...POData];
-          updatedPOData.splice(n, 1);
-          console.log(updatedPOData)
-          setPOData(updatedPOData);
+        const eventDetails = {
+            Name: document.querySelector("#PLName").value,
+            Date: document.querySelector("#PLDate").value,
+            Time: document.querySelector("#PLTime").value,
+            Venue: document.querySelector("#PLVenue").value,
+            Participant: PData,
+            Rules: document.querySelector("#PLRules").value.split('\n'),
+            POMap: POData,
+            SIC: document.querySelector("#SIC").value.split('\n'),
+            FIC: document.querySelector("#FIC").value,
+            ChiefPatron: document.querySelector("#CPName").value,
+            Patron: document.querySelector("#PName").value,
+            Assocition: document.querySelector("#AName").value,
+            President: document.querySelector("#P1Name").value,
+            ...rolesData, // Spreads the rolesData into the eventDetails
         };
 
-    const EventL1Submit=(e)=>{
-        e.preventDefault();
-        document.querySelector("#PName").innerHTML="Name : "+document.querySelector("#PLName").value;
-        document.querySelector("#PDate").innerHTML="Date : "+document.querySelector("#PLDate").value;
-        document.querySelector("#PTime").innerHTML="Time : "+document.querySelector("#PLTime").value;
-        document.querySelector("#PVenue").innerHTML="Venue : "+document.querySelector("#PLVenue").value;
-        document.querySelector("#PPart").innerHTML="Participants : "+PData;
-        document.querySelector("#PRules").innerHTML="Rules : "+document.querySelector("#PLRules").value;
-        document.querySelector("#PPOs").innerHTML="PO's : "+POData;
-        document.querySelector("#PSIC").innerHTML="Student In Charge : "+document.querySelector("#PLSIC").value;
-        document.querySelector("#PFIC").innerHTML="Facultie In Charge : "+document.querySelector("#PLFIC").value;
-        document.querySelector("#EventL2").style="display:flex;";
-    }
-    const EventL2Submit=()=>{
-        const FEvent={
-            "Name":document.querySelector("#PLName").value,
-            "Date":document.querySelector("#PLDate").value,
-            "Time":document.querySelector("#PLTime").value,
-            "Venue":document.querySelector("#PLVenue").value,
-            "Participants":PData,
-            "Rules":document.querySelector("#PLRules").value,
-            "POMap":POData,
-            "SIC":document.querySelector("#PLSIC").value,
-            "FIC":document.querySelector("#PLFIC").value,
-            "HODA":[false,""],
-            "CoCA":[false,""],
-            "VPA":[false,""],
-            "PA":[false,""],
-            "Status":"Pending"
+        // Navigate to the preview page with event details
+        navigate('/CircularPreview', { state: { eventDetails } });
+    };
+
+    const OpenEvent = () => {
+        if (homeEventRef.current) {
+            homeEventRef.current.style.display = 'flex';
         }
-        console.log(FEvent)
-        CreateNewEvent(FEvent);
-    }
-    const EventL2Close=()=>{
-        document.querySelector("#EventL2").style="display:none;"
-    }
+    };
 
-    return(
+    return (
         <>
-        <div>
-            <p>{UserData.Name}</p>
-            <button onClick={OpenEvent}>Create Circular</button>
-        </div>
-
-        
-        {/* ---------------- E V E N T -------------- */}
-
-        <div id='Home-Event'>
-            <form onSubmit={EventL1Submit} id='EventL1'>
-                <p>Create Event</p>
-                <div>
-                    <p>Name</p>
-                    <input placeholder='Name Of The Event' id='PLName' required></input>
-                </div>
-                <div>
-                    <p>Date</p>
-                    <input type='date' required id='PLDate'></input>
-                </div>
-                <div>
-                    <p>Time</p>
-                    <input type='time' required id='PLTime'></input>
-                </div>
-                <div>
-                    <p>Venue</p>
-                    <input placeholder='Venue' required id='PLVenue'></input>
-                </div>
-                <div>
-                    <p>Participants</p>
-                    <>
-                        {PData.map((pd,pid) => 
-                        <div className='PartIn'>
-                            <p key={pd} id={"PD"+pid}>{pd}</p>
-                            <button onClick={()=>DeletePD(pid)} type='button'><FontAwesomeIcon icon={faTrash} /></button>
-                        </div>)}
-                        <div>
-                            <input placeholder='Enter Participant...' id="pha"></input>
-                            <button type='button' onClick={ParticipantsUpdater}><FontAwesomeIcon icon={faPlus} /></button>
-                        </div>
-                    </>
-                </div>
-                <div>
-                    <p>Rules</p>
-                    <input placeholder='Rules' id='PLRules'></input>
-                </div>
-                <div>
-                    <p>PO</p>
-                    <>
-                        {POData.map((pod,poid) => 
-                        <div className='POIn'>
-                            <p key={pod} id={"POD"+poid}>{pod}</p>
-                            <button onClick={()=>DeletePOD(poid)} type='button'><FontAwesomeIcon icon={faTrash} /></button>
-                        </div>)}
-                        <div>
-                            <input placeholder='Enter PO...' id="poha"></input>
-                            <button type='button' onClick={POUpdater}><FontAwesomeIcon icon={faPlus} /></button>
-                        </div>
-                    </>
-                </div>
-                <div>
-                    <p>Student In Charge</p>
-                    <input placeholder='Student In Charge' required id='PLSIC'></input>
-                </div>
-                <div>
-                    <p>Facultie In Charge</p>
-                    <input placeholder='Facultie In Charge' required id='PLFIC'></input>
-                </div>
-                <button type='submit'>Submit</button>
-            </form>
-            
-            <div id='EventL2'>
-                <div id='EventL2L1'>
-                    <p id='PName'>Name : </p>
-                    <p id='PDate'>Date : </p>
-                    <p id='PTime'>Time : </p>
-                    <p id='PVenue'>Venue : </p>
-                    <p id='PPart'>Participants : </p>
-                    <p id='PRules'>Rules : </p>
-                    <p id='PPOs'>PO's : </p>
-                    <p id='PSIC'>Student In Charge : </p>
-                    <p id='PFIC'>Facultie In Charge : </p>
-                    <div>
-                        <button onClick={EventL2Submit}>Submit</button>
-                        <button onClick={EventL2Close}>Close</button>
-                    </div>
-                </div>
+            <div>
+                <p>{UserData.Name}</p>
+                <button onClick={OpenEvent}>Create Circular</button>
             </div>
 
-        </div>
+            <div id="Home-Event" style={{ display: 'none' }} ref={homeEventRef}>
+                <form onSubmit={EventL1Submit} id="EventL1">
+                <div>
+                        <p>Assocition</p>
+                        <input placeholder="Enter The Assocition Name" id="AName" required />
+                    </div>
+                    <div>
+                        <p>Chief Patron</p>
+                        <input placeholder="Enter The Chief Patron Name" id="CPName" required />
+                    </div>
+                    <div>
+                        <p>Patron</p>
+                        <input placeholder="Enter The Patron Name" id="PName" required />
+                    </div>
+                    <div>
+                        <p>President</p>
+                        <input placeholder="Enter The President Name" id="P1Name" required />
+                    </div>
+                    <div>
+                        <p>Faculty Advisors</p>
+                        <input placeholder="Enter The Faculty Advisors" id="FacultyAdvisors" onChange={handleInputChange} required />
+                    </div>
+                    <div>
+                        <p>Secretary</p>
+                        <input placeholder="Enter The Secretary Name" id="Secretary" onChange={handleInputChange} required />
+                    </div>
+                    <div>
+                        <p>Joint Secretary</p>
+                        <input placeholder="Enter The Joint Secretary Name" id="JointSecretary" onChange={handleInputChange} required />
+                    </div>
+                    <div>
+                        <p>Treasurer</p>
+                        <input placeholder="Enter The Treasurer Name" id="Treasurer" onChange={handleInputChange} required />
+                    </div>
+                    <div>
+                        <p>Joint-Treasurer</p>
+                        <input placeholder="Enter The Joint-Treasurer Name" id="JointTreasurer" onChange={handleInputChange} required />
+                    </div>
+                    <div>
+                        <p>Magazine Preparation</p>
+                        <input placeholder="Enter The Magazine Preparation Name" id="MagazinePreparation" onChange={handleInputChange} required />
+                    </div>
+                    <div>
+                        <p>Poster Designer</p>
+                        <input placeholder="Enter The Poster Designer Name" id="PosterDesigner" onChange={handleInputChange} required />
+                    </div>
+                    <div>
+                        <p>Event Organizer</p>
+                        <input placeholder="Enter The Event Organizer Name" id="EventOrganizer" onChange={handleInputChange} required />
+                    </div>
+                    <div>
+                        <p>Social Media Activities</p>
+                        <input placeholder="Enter The Social Media Activities" id="SocialMediaActivities" onChange={handleInputChange} required />
+                    </div>
 
-        {/* ---------------- L O A D I N G -------------- */}
-
-        <div id="Home-Loading">
-            <p>Loading...</p>
-        </div>
+                    <div>
+                        <p>Event Name</p>
+                        <input placeholder="Enter Event Name" id="PLName" required />
+                    </div>
+                    <div>
+                        <p>Date</p>
+                        <input type="date" id="PLDate" required />
+                    </div>
+                    <div>
+                        <p>Time</p>
+                        <input type="time" id="PLTime" required />
+                    </div>
+                    <div>
+                        <p>Venue</p>
+                        <input placeholder="Enter Venue" id="PLVenue" required />
+                    </div>
+                    <div>
+                        <p>participant</p>
+                        <input placeholder="Enter The participant" id="participant" onChange={handleInputChange} required />
+                    </div>
+                    
+                    
+                    <div>
+                        <p>Rules</p>
+                        <textarea placeholder="Rules" id="PLRules" />
+                    </div>
+                    <div>
+                        <p>PO Mapping</p>
+                        <>
+                            {POData.map((po, index) => (
+                                <div className="PartIn" key={index}>
+                                    <p>{po}</p>
+                                    <button onClick={() => DeletePOD(index)} type="button">
+                                        <FontAwesomeIcon icon={faTrash} />
+                                    </button>
+                                </div>
+                            ))}
+                            <div>
+                                <input placeholder="Enter PO Mapping..." id="poha" />
+                                <button type="button" onClick={POUpdater}>
+                                    <FontAwesomeIcon icon={faPlus} />
+                                </button>
+                            </div>
+                        </>
+                    </div>
+                    <div>
+                        <p>Student In Charge</p>
+                        <input placeholder="Student In Charge" id="SIC" onChange={handleInputChange} required />
+                    </div>
+                    <div>
+                        <p>Faculty In Charge</p>
+                        <input placeholder="Faculty In Charge" id="FIC" onChange={handleInputChange} required/>
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            <div ref={homeLoadingRef} style={{ display: 'none' }}>Loading...</div>
         </>
-    )
+    );
 }
 
 export default Circular;

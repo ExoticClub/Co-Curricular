@@ -1,9 +1,188 @@
-.EventCont{
+/* Event.css */
+
+/* Global settings */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+}
+
+.dashboard {
     display: flex;
     flex-direction: column;
-    justify-content: start;
-    align-items: center;
+    height: 100%;
+    overflow: hidden;
 }
-.EventShow div{
+
+/* Navbar styling */
+.navbar {
+    background-color: #343a40;
+    color: white;
+    padding: 15px 20px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Event container and grid */
+/* Event container and grid */
+.event-container {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #333;
+}
+
+/* Update to make sure the grid is responsive and handles overflow */
+.event-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-height: calc(100vh - 140px); /* Adjust based on navbar and other layout needs */
+    overflow-y: auto; /* Enable vertical scroll if needed */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.event-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+}
+
+.event-card h3 {
+    margin: 0;
+    color: #007bff;
+}
+
+.event-card p {
+    margin: 10px 0;
+    color: #555;
+}
+
+.event-actions {
+    margin-top: 15px;
+}
+
+.btn-participate, .btn-check {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-participate {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-participate:hover {
+    background-color: #218838;
+}
+
+.btn-check {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-check:hover {
+    background-color: #0056b3;
+}
+
+.status-pending, .status-invalid {
+    font-size: 1rem;
+    color: #dc3545;
+    margin-top: 10px;
+}
+
+/* Summary Modal */
+.summary-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.summary-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 500px;
+    position: relative;
+    text-align: center;
+}
+
+.summary-content h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.summary-content p {
+    margin: 10px 0;
+    color: #555;
+}
+
+.btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.btn-close:hover {
+    color: #000;
 }

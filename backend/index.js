@@ -8,7 +8,7 @@ const EventRoute=require("./Routes/EventRoute");
 const SummaryRoute=require("./Routes/SummaryRoute");
 
 const Port=4689;
-const Uri="mongodb+srv://teamexotic:65786F746963@exotic.ru2tbx8.mongodb.net/?retryWrites=true&w=majority"
+const Uri="mongodb+srv://teamexotic:Kishor-2005@exotic.ru2tbx8.mongodb.net/?retryWrites=true&w=majority"
 
 
 app.get("/",(req,res)=>{
