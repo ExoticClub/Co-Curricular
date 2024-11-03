@@ -1,16 +1,97 @@
-#Upcoming_Events{
-    overflow-y: scroll;
-    height:100px;
-    width:200px;
-    
+/* Full viewport container with centered background image */
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-image: url('C:\Users\Arumugam\Desktop\CC\Co-Curricular\frontend\src\Styles\login_top.png');
+    background: size 50%;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    font-family: Arial, sans-serif; */
 }
-.h{
-    
-}
-.Navbar{
-    
 
+
+/* Navbar container */
+.h {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
-.nav-cet{
-    
+
+/* Navbar styling */
+.Navbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Center content inside Navbar */
+.nav-cet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Add space between links */
+}
+
+.nav-cet p {
+    font-size: 24px;
+    color: #0d0e0e; /* Home heading color */
+    font-weight: bold;
+    margin: 0;
+    margin-right: 15px;
+}
+
+/* Centered AF text */
+.h p {
+    font-size: 28px;
+    font-weight: bold;
+    color: #212224;
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Button style for Navbar links */
+.nav-cet a {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 0 5px;
+    color: white;
+    background-color: #007bff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.nav-cet a:hover {
+    background-color: #0056b3;
+}
+
+/* Logout button styling and positioning */
+.nav-rig {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 70px; /* Adjust this as needed for spacing */
+    width: 100%;
+}
+
+.nav-rig a {
+    display: inline-block;
+    padding: 8px 16px;
+    color: white;
+    background-color: #dc3545;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.nav-rig a:hover {
+    background-color: #c82333;
 }

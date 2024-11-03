@@ -1,0 +1,148 @@
+/* General page styling */
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+/* Form container */
+#Home-Event {
+    position: relative;
+    background: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+    max-width: 600px;
+    width: 1200px;
+    overflow-y: auto;
+    max-height: 80vh; /* Adjusted for a smaller scroll box */
+}
+
+/* Close button */
+#Home-Event .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+#Home-Event .close-btn:hover {
+    color: #333;
+}
+
+/* Form title */
+#Home-Event p {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+/* Input fields */
+#Home-Event input[type="text"],
+#Home-Event input[type="date"],
+#Home-Event input[type="time"],
+#Home-Event textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    background-color: #f9fafb;
+    transition: border-color 0.2s ease-in-out;
+}
+
+#Home-Event input:focus,
+#Home-Event textarea:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+/* Button styling */
+button {
+    padding: 10px 16px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #2563eb;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1e40af;
+}
+
+button:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* Submit button styling */
+#Home-Event button[type="submit"] {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #10b981; /* Green color */
+}
+
+#Home-Event button[type="submit"]:hover {
+    background-color: #059669;
+}
+
+/* Icon button styling */
+button svg {
+    margin-right: 8px;
+}
+
+/* Role container styling */
+.PartIn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.PartIn p {
+    margin: 0;
+    color: #333333;
+    font-size: 14px;
+}
+
+.PartIn button {
+    padding: 5px 10px;
+    background-color: #ef4444; /* Red color for delete */
+    color: #ffffff;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.PartIn button:hover {
+    background-color: #dc2626;
+}
+
+/* Textarea styling */
+#Home-Event textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    #Home-Event {
+        padding: 20px;
+        width: 90%;
+    }
+}

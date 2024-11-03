@@ -1,7 +1,7 @@
 // CircularPreview.js
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import "./CircularPreview.css";
+import "../Styles/CircularPreview.css";
 import logo from "./rit.png";
 
 function CircularPreview() {
@@ -11,7 +11,7 @@ function CircularPreview() {
 
     if (!eventDetails) {
         return (
-            <div>
+            <div className="wrapper">
                 <p>Error: No event details found. Please go back and fill out the form.</p>
                 <button onClick={() => navigate(-1)}>Go Back</button>
             </div>
@@ -22,7 +22,6 @@ function CircularPreview() {
         if (!Array.isArray(list)) {
             return <p>No items available</p>;
         }
-
         return list.length > 0 ? (
             <ul>
                 {list.map((item, index) => (
@@ -35,32 +34,25 @@ function CircularPreview() {
     };
 
     const renderPOMapping = () => {
-        const poLabels = ["PO 1", "PO 2", "PO 3", "PO 4", "PO 5", "PO 6", "PO 7", "PO 8", "PO 9", "PO 10"];
         const poMapping = eventDetails.POMap || [];
-
         const isAnyPOSelected = poMapping.some(po => po);
 
         if (!isAnyPOSelected) {
             return <p>No PO Mapping available</p>;
         }
-        console.log(poMapping)
 
         return (
-            <table border="1" cellSpacing="0" cellPadding="5">
+            <table>
                 <thead>
                     <tr>
                         <th>POs</th>
-                        {poMapping.map((label, index) => (
-                            poMapping[index] ? <th key={index}>{label}</th> : null
-                        ))}
+                        {poMapping.map((label, index) => (poMapping[index] ? <th key={index}>{label}</th> : null))}
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td></td>
-                        {poMapping.map((po, index) => (
-                            po ? <td key={index}>✔</td> : null
-                        ))}
+                        {poMapping.map((po, index) => (po ? <td key={index}>✔</td> : null))}
                     </tr>
                 </tbody>
             </table>
@@ -71,8 +63,13 @@ function CircularPreview() {
         navigate('/authentication', { state: { eventDetails } }); // Pass eventDetails to the Authentication page
     };
 
+    // Print function
+    const handlePrint = () => {
+        window.print(); // Trigger print dialog
+    };
+
     return (
-        <>
+        <div className="CBody">
             <div className="wrapper">
                 <div className="header">
                     <div className="ritimage">
@@ -89,7 +86,7 @@ function CircularPreview() {
 
                 <div className="details">
                     <div className="left">
-                        <p><strong>Chief Patron:</strong>{eventDetails.ChiefPatron || 'Not specified'}</p>
+                        <p><strong>Chief Patron:</strong> {eventDetails.ChiefPatron || 'Not specified'}</p>
                         <p><strong>Patron:</strong> {eventDetails.Patron || 'Not specified'}</p>
                         <p><strong>President:</strong> {eventDetails.President || 'Not specified'}</p>
                         <p><strong>Faculty Advisors:</strong> {renderList(eventDetails.FacultyAdvisors)}</p>
@@ -104,13 +101,13 @@ function CircularPreview() {
                     </div>
 
                     <div className="right">
-                        <p><b>Event Name:</b> {eventDetails.Name}</p><br />
-                        <p><b>Date:</b> {eventDetails.Date}</p><br />
-                        <p><b>Time:</b> {eventDetails.Time}</p><br />
-                        <p><b>Venue:</b>{eventDetails.Venue}</p><br />
-                        <p><b>Participant:</b>{eventDetails.participant}</p><br />
+                        <p><strong>Event Name:</strong> {eventDetails.Name}</p>
+                        <p><strong>Date:</strong> {eventDetails.Date}</p>
+                        <p><strong>Time:</strong> {eventDetails.Time}</p>
+                        <p><strong>Venue:</strong> {eventDetails.Venue}</p>
+                        <p><strong>Participant:</strong> {eventDetails.participant}</p>
                         <div className="rules">
-                            <p><strong>Rules:</strong><br /></p>
+                            <p><strong>Rules:</strong></p>
                             {Array.isArray(eventDetails.Rules) ? (
                                 <ul>
                                     {eventDetails.Rules.map((rule, index) => (
@@ -132,10 +129,10 @@ function CircularPreview() {
                             <p><strong>Faculty In-charge(s):</strong><br />{renderList(eventDetails.FIC)}</p>
                         </div>
                         <div>
-                            <p><strong>HOD:</strong> </p>
-                            <p><strong>Co-Curricular Coordinator:</strong> </p>
-                            <p><strong>Vice Principal:</strong> </p>
-                            <p><strong>Principal:</strong> </p>
+                            <p><strong>HOD:</strong></p>
+                            <p><strong>Co-Curricular Coordinator:</strong></p>
+                            <p><strong>Vice Principal:</strong></p>
+                            <p><strong>Principal:</strong></p>
                         </div>
                     </div>
                 </div>
@@ -143,8 +140,9 @@ function CircularPreview() {
             <div className="actions">
                 <button onClick={() => navigate(-1)}>Back</button>
                 <button onClick={handleFormSubmit}>Submit</button>
+                <button onClick={handlePrint}>Print</button>
             </div>
-        </>
+        </div>
     );
 }
 

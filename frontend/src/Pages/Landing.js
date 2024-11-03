@@ -42,16 +42,24 @@ function Landing(){
 
     return(
         <>
-            <div>
+           
+        <div class="LoginContainer">
+    <div class="LoginBox">
+        <h2>RIT Co-Curricular </h2>
+      
+         <div>
+             <button onClick={Login}>Login</button>
+        </div>
+                
+        
+    </div>
+</div>
+
                 <div className="Navbar">
-                    <div>
-                        <p>Event Corner</p>
-                    </div>
-                    <div>
-                        <button onClick={Login}>Login</button>
-                    </div>
-                </div>
-                <div className="LandingCont">
+                    
+                   
+                
+                {/* <div className="LandingCont">
                     <div className="EventCompleted">
                         <p>Event Completed</p>
                         {EveC.map((data,eid) => 
@@ -78,7 +86,7 @@ function Landing(){
                             </div>
                         </div>)}
                     </div>
-                </div>
+                </div> */}
             </div>
         </>
     )

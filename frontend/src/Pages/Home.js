@@ -39,11 +39,11 @@ function Home(){
             <div className="h">
                 <div className="Navbar">
                     <div>
-                        <p>Event Corner</p>
+                        <p>Home</p>
                     </div>
                     <div className="nav-cet">
-                        <p>Home</p>
-                        <a onClick={()=>{window.location.href="/events"}}>Event</a>
+                        
+                        <a onClick={()=>{window.location.href="/Event"}}>Event</a>
                         {data.map((d,eid) => 
                             <a onClick={()=>{window.location.href=d[1]}}>{d[0]}</a>)}
                     </div>
@@ -51,6 +51,7 @@ function Home(){
                         <a onClick={LogOut}>Logout</a>
                     </div>
                 </div>
+                
 
                 <div>
                     <p>{LoginRole}</p>

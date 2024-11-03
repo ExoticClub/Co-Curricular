@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import "../Styles/Homes.css";
+import "../Styles/Circular.css";
 
 function Circular() {
     const URL = "http://localhost:4689";
@@ -26,6 +26,7 @@ function Circular() {
         EventOrganizer: [],
         SocialMediaActivities: [],
     });
+    const [isFormVisible, setIsFormVisible] = useState(false); // State for form visibility
 
     const homeLoadingRef = useRef(null);
     const homeEventRef = useRef(null);
@@ -64,13 +65,6 @@ function Circular() {
             [id]: value.split(',').map(item => item.trim())
         });
     };
-    const handleSingleLineInputChange = (e) => {
-        const { id, value } = e.target;
-        setRolesData({
-            ...rolesData,
-            [id]: value.split('\n').map(item => item.trim())
-        });
-    };
 
     const handleDataUpdater = (data, setData, inputId) => {
         const value = document.querySelector(`#${inputId}`).value;
@@ -84,7 +78,7 @@ function Circular() {
         setData(data.filter((_, i) => i !== index));
     };
 
-    const ParticipantsUpdater = () => handleDataUpdater(PData, setPData, "pha");
+    const ParticipantsUpdater = () => handleDataUpdater(PData, setPData, "participant");
     const POUpdater = () => handleDataUpdater(POData, setPOData, "poha");
 
     const DeletePD = (index) => handleDataDelete(index, PData, setPData);
@@ -107,7 +101,7 @@ function Circular() {
             Patron: document.querySelector("#PName").value,
             Assocition: document.querySelector("#AName").value,
             President: document.querySelector("#P1Name").value,
-            ...rolesData, // Spreads the rolesData into the eventDetails
+            ...rolesData,
         };
 
         // Navigate to the preview page with event details
@@ -115,131 +109,145 @@ function Circular() {
     };
 
     const OpenEvent = () => {
+        setIsFormVisible(true);
         if (homeEventRef.current) {
-            homeEventRef.current.style.display = 'flex';
+            homeEventRef.current.scrollIntoView({ behavior: 'smooth' }); // Scroll to the form
         }
     };
 
+    const CloseEvent = () => {
+        setIsFormVisible(false); // Hide the form
+    };
+
     return (
-        <>
-            <div>
-                <p>{UserData.Name}</p>
-                <button onClick={OpenEvent}>Create Circular</button>
-            </div>
-
-            <div id="Home-Event" style={{ display: 'none' }} ref={homeEventRef}>
-                <form onSubmit={EventL1Submit} id="EventL1">
+        <div className="container">
+            {!isFormVisible && (
                 <div>
-                        <p>Assocition</p>
-                        <input placeholder="Enter The Assocition Name" id="AName" required />
-                    </div>
-                    <div>
-                        <p>Chief Patron</p>
-                        <input placeholder="Enter The Chief Patron Name" id="CPName" required />
-                    </div>
-                    <div>
-                        <p>Patron</p>
-                        <input placeholder="Enter The Patron Name" id="PName" required />
-                    </div>
-                    <div>
-                        <p>President</p>
-                        <input placeholder="Enter The President Name" id="P1Name" required />
-                    </div>
-                    <div>
-                        <p>Faculty Advisors</p>
-                        <input placeholder="Enter The Faculty Advisors" id="FacultyAdvisors" onChange={handleInputChange} required />
-                    </div>
-                    <div>
-                        <p>Secretary</p>
-                        <input placeholder="Enter The Secretary Name" id="Secretary" onChange={handleInputChange} required />
-                    </div>
-                    <div>
-                        <p>Joint Secretary</p>
-                        <input placeholder="Enter The Joint Secretary Name" id="JointSecretary" onChange={handleInputChange} required />
-                    </div>
-                    <div>
-                        <p>Treasurer</p>
-                        <input placeholder="Enter The Treasurer Name" id="Treasurer" onChange={handleInputChange} required />
-                    </div>
-                    <div>
-                        <p>Joint-Treasurer</p>
-                        <input placeholder="Enter The Joint-Treasurer Name" id="JointTreasurer" onChange={handleInputChange} required />
-                    </div>
-                    <div>
-                        <p>Magazine Preparation</p>
-                        <input placeholder="Enter The Magazine Preparation Name" id="MagazinePreparation" onChange={handleInputChange} required />
-                    </div>
-                    <div>
-                        <p>Poster Designer</p>
-                        <input placeholder="Enter The Poster Designer Name" id="PosterDesigner" onChange={handleInputChange} required />
-                    </div>
-                    <div>
-                        <p>Event Organizer</p>
-                        <input placeholder="Enter The Event Organizer Name" id="EventOrganizer" onChange={handleInputChange} required />
-                    </div>
-                    <div>
-                        <p>Social Media Activities</p>
-                        <input placeholder="Enter The Social Media Activities" id="SocialMediaActivities" onChange={handleInputChange} required />
-                    </div>
-
-                    <div>
-                        <p>Event Name</p>
-                        <input placeholder="Enter Event Name" id="PLName" required />
-                    </div>
-                    <div>
-                        <p>Date</p>
-                        <input type="date" id="PLDate" required />
-                    </div>
-                    <div>
-                        <p>Time</p>
-                        <input type="time" id="PLTime" required />
-                    </div>
-                    <div>
-                        <p>Venue</p>
-                        <input placeholder="Enter Venue" id="PLVenue" required />
-                    </div>
-                    <div>
-                        <p>participant</p>
-                        <input placeholder="Enter The participant" id="participant" onChange={handleInputChange} required />
-                    </div>
-                    
-                    
-                    <div>
-                        <p>Rules</p>
-                        <textarea placeholder="Rules" id="PLRules" />
-                    </div>
-                    <div>
-                        <p>PO Mapping</p>
-                        <>
-                            {POData.map((po, index) => (
-                                <div className="PartIn" key={index}>
-                                    <p>{po}</p>
-                                    <button onClick={() => DeletePOD(index)} type="button">
-                                        <FontAwesomeIcon icon={faTrash} />
+                    <h1>Create Circular Event</h1>
+                    <button onClick={OpenEvent}>Create Circular</button>
+                </div>
+            )}
+            
+            {isFormVisible && (
+                <div id="Home-Event" ref={homeEventRef}>
+                    <button onClick={CloseEvent} className="close-btn">
+                        <FontAwesomeIcon icon={faTimes} size="lg" />
+                    </button>
+                    <form onSubmit={EventL1Submit} id="EventL1">
+                        {/* Form fields remain the same */}
+                        <div>
+                            <p>Association</p>
+                            <input placeholder="Enter The Association Name" id="AName" required />
+                        </div>
+                        <div>
+                            <p>Chief Patron</p>
+                            <input placeholder="Enter The Chief Patron Name" id="CPName" required />
+                        </div>
+                        <div>
+                            <p>Patron</p>
+                            <input placeholder="Enter The Patron Name" id="PName" required />
+                        </div>
+                        <div>
+                            <p>President</p>
+                            <input placeholder="Enter The President Name" id="P1Name" required />
+                        </div>
+                        <div>
+                            <p>Faculty Advisors</p>
+                            <input placeholder="Enter The Faculty Advisors" id="FacultyAdvisors" onChange={handleInputChange} required />
+                        </div>
+                        <div>
+                            <p>Secretary</p>
+                            <input placeholder="Enter The Secretary Name" id="Secretary" onChange={handleInputChange} required />
+                        </div>
+                        <div>
+                            <p>Joint Secretary</p>
+                            <input placeholder="Enter The Joint Secretary Name" id="JointSecretary" onChange={handleInputChange} required />
+                        </div>
+                        <div>
+                            <p>Treasurer</p>
+                            <input placeholder="Enter The Treasurer Name" id="Treasurer" onChange={handleInputChange} required />
+                        </div>
+                        <div>
+                            <p>Joint-Treasurer</p>
+                            <input placeholder="Enter The Joint-Treasurer Name" id="JointTreasurer" onChange={handleInputChange} required />
+                        </div>
+                        <div>
+                            <p>Magazine Preparation</p>
+                            <input placeholder="Enter The Magazine Preparation Name" id="MagazinePreparation" onChange={handleInputChange} required />
+                        </div>
+                        <div>
+                            <p>Poster Designer</p>
+                            <input placeholder="Enter The Poster Designer Name" id="PosterDesigner" onChange={handleInputChange} required />
+                        </div>
+                        <div>
+                            <p>Event Organizer</p>
+                            <input placeholder="Enter The Event Organizer Name" id="EventOrganizer" onChange={handleInputChange} required />
+                        </div>
+                        <div>
+                            <p>Social Media Activities</p>
+                            <input placeholder="Enter The Social Media Activities" id="SocialMediaActivities" onChange={handleInputChange} required />
+                        </div>
+                        <div>
+                            <p>Event Name</p>
+                            <input placeholder="Enter Event Name" id="PLName" required />
+                        </div>
+                        <div>
+                            <p>Date</p>
+                            <input type="date" id="PLDate" required />
+                        </div>
+                        <div>
+                            <p>Time</p>
+                            <input type="time" id="PLTime" required />
+                        </div>
+                        <div>
+                            <p>Venue</p>
+                            <input placeholder="Enter Venue" id="PLVenue" required />
+                        </div>
+                        <div>
+                            <p>Participant</p>
+                            <input placeholder="Enter The participant" id="participant" onChange={handleInputChange} required />
+                        </div>
+                        <div>
+                            <p>Rules</p>
+                            <textarea placeholder="Rules" id="PLRules" />
+                        </div>
+                        <div>
+                            <p>PO Mapping</p>
+                            <>
+                                {POData.map((po, index) => (
+                                    <div className="PartIn" key={index}>
+                                        <p>{po}</p>
+                                        <button onClick={() => DeletePOD(index)} type="button">
+                                            <FontAwesomeIcon icon={faTrash} />
+                                        </button>
+                                    </div>
+                                ))}
+                                <div>
+                                    <input placeholder="Enter PO Mapping..." id="poha" />
+                                    <button type="button" onClick={POUpdater}>
+                                        <FontAwesomeIcon icon={faPlus} />
                                     </button>
                                 </div>
-                            ))}
-                            <div>
-                                <input placeholder="Enter PO Mapping..." id="poha" />
-                                <button type="button" onClick={POUpdater}>
-                                    <FontAwesomeIcon icon={faPlus} />
-                                </button>
-                            </div>
-                        </>
-                    </div>
-                    <div>
-                        <p>Student In Charge</p>
-                        <input placeholder="Student In Charge" id="SIC" onChange={handleInputChange} required />
-                    </div>
-                    <div>
-                        <p>Faculty In Charge</p>
-                        <input placeholder="Faculty In Charge" id="FIC" onChange={handleInputChange} required/>
-                    </div>
-                    <button type="submit">Submit</button>
-                </form>
+                            </>
+                        </div>
+                        <div>
+                            <p>SIC</p>
+                            <input placeholder="Enter SIC" id="SIC" required />
+                        </div>
+                        <div>
+                            <p>Faculty In Charge</p>
+                            <input placeholder="Faculty In Charge" id="FIC" required />
+                        </div>
+                        <div>
+                            <button type="submit">Submit Event</button>
+                        </div>
+                    </form>
+                </div>
+            )}
+            <div ref={homeLoadingRef} style={{ display: 'none' }}>
+                Loading...
             </div>
-            <div ref={homeLoadingRef} style={{ display: 'none' }}>Loading...</div>
-        </>
+        </div>
     );
 }
 
